@@ -1,0 +1,207 @@
+openapi: 3.0.0
+info:
+  description: "This is a Spec For SML Product Dealer."
+  version: 1.0.3
+  title: Product Dealer API
+
+paths:
+  /product:
+    get:
+      tags:
+        - Product
+      summary: "List product."
+      description: for list product in system
+      operationId: listProduct
+      responses:
+        "200":
+          description: List of product object
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                   - $ref: "#/components/schemas/Product"
+                # properties:
+                #   dealers:
+                #     type: array
+                #     description: ผู้แทนจำหน่าย
+                #     items:
+                #       $ref: "#/components/schemas/ProductDealerSync"
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        code:
+          type: string
+          description: รหัสสินค้า
+          maxLength: 25
+        name_1:
+          type: string
+          description: ชื่อสินค้า
+          maxLength: 255
+        name_eng_1:
+          type: string
+          description: ชื่อ (ภาษาอังกฤษ)
+          maxLength: 255
+        short_name:
+          type: string
+          description: ชื่อสินค้าแบบย่อ
+          maxLength: 255
+        unit_cost:
+          type: string
+          description: รหัสหน่วยนับ(ต้นทุน)
+          maxLength: 25
+        price_recommended:
+          type: number
+          description: ราคาขายแนะนำ
+        item_category:
+          type: string
+          description: รหัสหมวดสินค้า
+          maxLength: 25
+        group_main:
+          type: string
+          description: รหัสกลุ่มสินค้าหลัก
+          maxLength: 25
+        group_sub:
+          type: string
+          description: รหัสกลุ่มสินค้าย่อย
+          maxLength: 25
+        group_sub2:
+          type: string
+          description: รหัสกลุ่มสินค้าย่อย 2
+          maxLength: 25
+        item_class:
+          type: string
+          description: รหัสระดับสินค้า
+          maxLength: 25
+        item_pattern:
+          type: string
+          description: รหัสรูปแบบสินค้า
+          maxLength: 25
+        item_brand:
+          type: string
+          description: รหัสยี่ห้อ
+          maxLength: 25
+        item_design:
+          type: string
+          description: รหัสรูปทรง
+          maxLength: 25
+        item_grade:
+          type: string
+          description: รหัสเกรดสินค้า          
+          maxLength: 25
+        item_model:
+          type: string
+          description: รหัสรุ่นสินค้า          
+          maxLength: 25
+        code_old:
+          type: string
+          maxLength: 25
+          description: รหัสสินค้าเดิม
+        tax_type:
+          type: integer
+          description: ประเภทภาษี (0=ภาษีมูลค่าเพิ่ม, 1=ยกเว้นภาษี)
+        ic_serial_no:
+          type: integer
+          description: สินค้ามี Serial (0=ไม่มี, 1=มี)
+        account_code_1:
+          type: string
+          description: รหัสผังบัญชีสินค้า
+          maxLength: 25
+        account_code_2:
+          type: string
+          description: รหัสผังบัญชีต้่นทุน
+          maxLength: 25
+        account_code_3:
+          type: string
+          description: รหัสผังบัญชีรายได้
+          maxLength: 25
+        account_code_4:
+          type: string
+          description: รหัสผังบัญชีรับคืน
+          maxLength: 25
+        last_update_date_time:
+          type: string
+          format: date-time
+          description: The date and time of the last update.     
+        units:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductUnit"
+        barcodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Barcode"
+        product_image:
+          type: string
+          description: รูปภาพสินค้า
+          maxLength: 255
+      required:
+        - code
+        - name_1
+        - unit_cost
+        - item_type
+        - tax_type
+    ProductUnit:
+      type: object
+      properties:
+        code:
+          type: string
+          description: รหัสหน่วยนับ
+          maxLength: 25
+        line_number:
+          type: integer
+          description: Line Number
+        stand_value:
+          type: number
+          description: ตัวตั้ง
+        divide_value:
+          type: number
+          description: ตัวหาร
+        row_order:
+          type: integer
+          description: ลำดับที่
+        weight:
+          type: string
+          description: น้ำหนัก
+          example: 200 g.
+        status:
+          type: integer
+          description: สถานะ
+        unit_size:
+          type: number
+          description: ขนาดสินค้า
+        ratio:
+          type: number
+          description: อัตราส่วน
+        width_length_height:
+          type: string
+          maxLength: 255
+          example: กxยxส
+        remark:
+          type: string
+          description: หมายเหตุ
+      required:
+        - code
+        - stand_value
+        - divide_value
+        - row_order
+        - line_number
+    Barcode:
+      type: object
+      properties:
+        barcode:
+          type: string
+          description: บาร์โค๊ด
+          maxLength: 25
+        unit_code:
+          type: string
+          description: รหัสหน่วยนับ
+          maxLength: 25
+        price:
+          type: number
+          description: ราคา
+      required:
+        - barcode
+        - unit_code
